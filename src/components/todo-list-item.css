@@ -1,0 +1,14 @@
+.list-group-item.todo-list-item {
+  font-size: 20px;
+  width: 75%;
+  margin: auto;
+}
+
+.todo-list-item-label {
+  line-height: 35px;
+}
+
+.btn-list-item {
+  margin-left: 5px;
+  float: right;
+}
