@@ -2,17 +2,46 @@ import React from "react";
 import "./todo-list-item.css";
 
 export default class TodoListItem extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      complete: false,
+      important: false,
+    };
+  }
+
+  onLabelClick = () => {
+    this.setState({
+      complete: !this.state.complete,
+    });
+  };
+
+  onBtnImportantClick = () => {
+    this.setState((state) => {
+      return {
+        important: !state.important,
+      };
+    });
+  };
+
   render() {
-    const { label, important = false } = this.props;
-    const spanStyle = important ? " text-danger" : " text-info";
+    const { label } = this.props;
+    const { complete, important } = this.state;
+    let spanStyle = important ? " important" : "";
+    spanStyle += complete ? " complete " : "";
     return (
       <span className={"list-group-item todo-list-item" + spanStyle}>
-        <span className="todo-list-item-label">{label}</span>
+        <span onClick={this.onLabelClick} className="todo-list-item-label">
+          {label}
+        </span>
         <button className="btn btn-danger btn-list-item">
           <i className="fa fa-trash "></i>
         </button>
-        <button className="btn btn-info btn-list-item">
-          <i className="fa fa-check"></i>
+        <button
+          onClick={this.onBtnImportantClick}
+          className="btn btn-info btn-list-item"
+        >
+          <i className="fa fa-star"></i>
         </button>
       </span>
     );

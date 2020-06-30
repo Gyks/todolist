@@ -12,3 +12,12 @@
   margin-left: 5px;
   float: right;
 }
+
+.complete {
+  text-decoration: line-through;
+}
+
+.important {
+  color: tomato;
+  font-weight: bold;
+}
