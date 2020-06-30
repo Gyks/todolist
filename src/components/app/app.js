@@ -10,6 +10,7 @@ const App = () => {
     { label: "Walk with your dog", important: true, id: 2 },
     { label: "Get a Real Job", important: true, id: 3 },
   ];
+
   return (
     <div>
       <TodoHeader />
