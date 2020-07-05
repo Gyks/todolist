@@ -2,11 +2,11 @@ import React from "react";
 import "./todo-list-item.css";
 
 export default class TodoListItem extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       complete: false,
-      important: false,
+      important: this.props.important,
     };
   }
 

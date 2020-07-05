@@ -1,0 +1,8 @@
+.input-group.add-item {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.input-group.add-item .form-control {
+  font-size: 20px;
+}

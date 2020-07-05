@@ -1,8 +1,9 @@
 import React from "react";
 import TodoListItem from "../todo-list-item";
+import AddItem from "../add-item";
 import "./todo-list.css";
 
-const TodoList = ({ listItemsTodo, onDeleted }) => {
+const TodoList = ({ listItemsTodo, onDeleted, addItem }) => {
   const elements = listItemsTodo.map((itemTodo) => {
     return (
       <TodoListItem
@@ -12,7 +13,12 @@ const TodoList = ({ listItemsTodo, onDeleted }) => {
       />
     );
   });
-  return <div className="list-group todo-list">{elements}</div>;
+  return (
+    <div>
+      <AddItem addItem={addItem} />
+      <div className="list-group todo-list">{elements}</div>
+    </div>
+  );
 };
 
 export default TodoList;
