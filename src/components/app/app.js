@@ -8,9 +8,14 @@ import "./app.css";
 export default class App extends React.Component {
   state = {
     todoData: [
-      { label: "Drink a tone of Coffee", important: false, id: 1 },
-      { label: "Walk with your dog", important: false, id: 2 },
-      { label: "Get a Real Job", important: false, id: 3 },
+      {
+        label: "Drink a tone of Coffee",
+        important: false,
+        complete: false,
+        id: 1,
+      },
+      { label: "Walk with your dog", important: false, complete: false, id: 2 },
+      { label: "Get a Real Job", important: false, complete: false, id: 3 },
     ],
   };
 
@@ -31,7 +36,12 @@ export default class App extends React.Component {
     this.setState(({ todoData }) => {
       let newId = todoData.slice(-1)[0].id;
       newId++;
-      const newItem = { label: text, important: false, id: newId };
+      const newItem = {
+        label: text,
+        important: false,
+        complete: false,
+        id: newId,
+      };
       const newTodoData = [...todoData, newItem];
 
       return {
@@ -40,16 +50,58 @@ export default class App extends React.Component {
     });
   };
 
+  onToggleImportant = (id) => {
+    this.setState(({ todoData }) => {
+      const idxToUpdate = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[idxToUpdate];
+      const newItem = { ...oldItem, important: !oldItem.important };
+
+      const newTodoData = [
+        ...todoData.slice(0, idxToUpdate),
+        newItem,
+        ...todoData.slice(idxToUpdate + 1),
+      ];
+
+      return {
+        todoData: newTodoData,
+      };
+    });
+  };
+
+  onToggleDone = (id) => {
+    this.setState(({ todoData }) => {
+      const idxToUpdate = todoData.findIndex((el) => el.id === id);
+      const oldItem = todoData[idxToUpdate];
+      const newItem = { ...oldItem, complete: !oldItem.complete };
+
+      const newTodoData = [
+        ...todoData.slice(0, idxToUpdate),
+        newItem,
+        ...todoData.slice(idxToUpdate + 1),
+      ];
+
+      return {
+        todoData: newTodoData,
+      };
+    });
+  };
+
   render() {
+    const completeCount = this.state.todoData.filter((el) => el.complete)
+      .length;
+    const todoCount = this.state.todoData.length - completeCount;
+
     return (
       <div>
-        <TodoHeader />
+        <TodoHeader todo={todoCount} complete={completeCount} />
         <div className="input-group mb-1">
           <SearchPanel />
           <ItemStatusFilter />
         </div>
         <TodoList
           onDeleted={this.deleteItem}
+          onToggleImportant={this.onToggleImportant}
+          onToggleDone={this.onToggleDone}
           addItem={this.addItem}
           listItemsTodo={this.state.todoData}
         />
