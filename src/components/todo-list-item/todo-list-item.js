@@ -11,21 +11,23 @@ export default class TodoListItem extends React.Component {
   }
 
   onLabelClick = () => {
-    this.setState({
-      complete: !this.state.complete,
+    this.setState(({ complete }) => {
+      return {
+        complete: !complete,
+      };
     });
   };
 
   onBtnImportantClick = () => {
-    this.setState((state) => {
+    this.setState(({ important }) => {
       return {
-        important: !state.important,
+        important: !important,
       };
     });
   };
 
   render() {
-    const { label } = this.props;
+    const { label, onDeleted } = this.props;
     const { complete, important } = this.state;
     let spanStyle = important ? " important" : "";
     spanStyle += complete ? " complete " : "";
@@ -34,7 +36,7 @@ export default class TodoListItem extends React.Component {
         <span onClick={this.onLabelClick} className="todo-list-item-label">
           {label}
         </span>
-        <button className="btn btn-danger btn-list-item">
+        <button onClick={onDeleted} className="btn btn-danger btn-list-item">
           <i className="fa fa-trash "></i>
         </button>
         <button
