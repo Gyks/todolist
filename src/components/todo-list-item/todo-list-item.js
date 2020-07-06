@@ -10,9 +10,11 @@ export default class TodoListItem extends React.Component {
       onToggleDone,
       complete,
       important,
+      hidden,
     } = this.props;
     let spanStyle = important ? " important" : "";
     spanStyle += complete ? " complete " : "";
+    spanStyle += hidden ? " d-none " : "";
     return (
       <span className={"list-group-item todo-list-item" + spanStyle}>
         <span onClick={onToggleDone} className="todo-list-item-label">

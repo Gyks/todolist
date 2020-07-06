@@ -12,11 +12,25 @@ export default class App extends React.Component {
         label: "Drink a tone of Coffee",
         important: false,
         complete: false,
+        hidden: false,
         id: 1,
       },
-      { label: "Walk with your dog", important: false, complete: false, id: 2 },
-      { label: "Get a Real Job", important: false, complete: false, id: 3 },
+      {
+        label: "Walk with your dog",
+        important: false,
+        complete: false,
+        hidden: false,
+        id: 2,
+      },
+      {
+        label: "Get a Real Job",
+        important: false,
+        complete: false,
+        hidden: false,
+        id: 3,
+      },
     ],
+    filter: "all",
   };
 
   deleteItem = (id) => {
@@ -40,6 +54,7 @@ export default class App extends React.Component {
         label: text,
         important: false,
         complete: false,
+        hidden: false,
         id: newId,
       };
       const newTodoData = [...todoData, newItem];
@@ -73,7 +88,6 @@ export default class App extends React.Component {
       const idxToUpdate = todoData.findIndex((el) => el.id === id);
       const oldItem = todoData[idxToUpdate];
       const newItem = { ...oldItem, complete: !oldItem.complete };
-
       const newTodoData = [
         ...todoData.slice(0, idxToUpdate),
         newItem,
@@ -86,24 +100,64 @@ export default class App extends React.Component {
     });
   };
 
+  onChangeFilter = (filter) => {
+    this.setState({
+      filter: filter,
+    });
+  };
+
+  onChangeSearchText = (text) => {
+    this.setState(({ todoData }) => {
+      const newTodoData = [...todoData];
+      newTodoData.map((el) => {
+        if (!el.label.includes(text)) {
+          el.hidden = true;
+        } else {
+          el.hidden = false;
+        }
+        return el;
+      });
+
+      return {
+        todoData: newTodoData,
+      };
+    });
+  };
+
   render() {
     const completeCount = this.state.todoData.filter((el) => el.complete)
       .length;
     const todoCount = this.state.todoData.length - completeCount;
-
+    let todoItemsFiltered = [];
+    switch (this.state.filter) {
+      case "all":
+        todoItemsFiltered = this.state.todoData;
+        break;
+      case "done":
+        todoItemsFiltered = this.state.todoData.filter((el) => el.complete);
+        break;
+      case "active":
+        todoItemsFiltered = this.state.todoData.filter((el) => !el.complete);
+        break;
+      default:
+        break;
+    }
     return (
       <div>
         <TodoHeader todo={todoCount} complete={completeCount} />
         <div className="input-group mb-1">
-          <SearchPanel />
-          <ItemStatusFilter />
+          <SearchPanel onChangeSearchText={this.onChangeSearchText} />
+          <ItemStatusFilter
+            filter={this.state.filter}
+            onChangeFilter={this.onChangeFilter}
+          />
         </div>
         <TodoList
           onDeleted={this.deleteItem}
           onToggleImportant={this.onToggleImportant}
           onToggleDone={this.onToggleDone}
           addItem={this.addItem}
-          listItemsTodo={this.state.todoData}
+          listItemsTodo={todoItemsFiltered}
         />
       </div>
     );

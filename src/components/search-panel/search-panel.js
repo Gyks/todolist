@@ -1,16 +1,21 @@
 import React from "react";
 import "./search-panel.css";
 
-const SearchPanel = () => {
-  return (
-    <input
-      type="text"
-      className="form-control search-panel"
-      placeholder="Search"
-      aria-label="Search"
-      aria-describedby="btnGroupAddon"
-    />
-  );
-};
+export default class SearchPanel extends React.Component {
+  onChangeSearchText = (e) => {
+    this.props.onChangeSearchText(e.target.value);
+  };
 
-export default SearchPanel;
+  render() {
+    return (
+      <input
+        type="text"
+        className="form-control search-panel"
+        placeholder="Search"
+        aria-label="Search"
+        aria-describedby="btnGroupAddon"
+        onChange={this.onChangeSearchText}
+      />
+    );
+  }
+}
