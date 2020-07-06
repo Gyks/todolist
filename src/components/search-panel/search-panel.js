@@ -6,7 +6,7 @@ const SearchPanel = () => {
     <input
       type="text"
       className="form-control search-panel"
-      placeholder="Serach"
+      placeholder="Search"
       aria-label="Search"
       aria-describedby="btnGroupAddon"
     />
